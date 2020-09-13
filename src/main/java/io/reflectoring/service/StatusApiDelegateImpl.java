@@ -13,14 +13,12 @@ import java.util.concurrent.ThreadLocalRandom;
 public class StatusApiDelegateImpl implements StatusApiDelegate {
     @Override
     public ResponseEntity<Problem> apiGetStatus() {
-        Problem problem = Problem
-            .builder()
-            .detail(RandomStringUtils.randomAlphabetic(10))
-            .status(ThreadLocalRandom.current().nextInt(0, 11))
-            .title(RandomStringUtils.randomAlphabetic(3))
-            .instance(URI.create("http://instance"))
-            .type(URI.create("http://type"))
-            .build();
+        Problem problem = new Problem();
+        problem.detail(RandomStringUtils.randomAlphabetic(10));
+        problem.status(ThreadLocalRandom.current().nextInt(0, 11));
+        problem.title(RandomStringUtils.randomAlphabetic(3));
+        problem.instance(URI.create("http://instance"));
+        problem.type(URI.create("http://type"));
         return ResponseEntity.ok(problem);
     }
 }

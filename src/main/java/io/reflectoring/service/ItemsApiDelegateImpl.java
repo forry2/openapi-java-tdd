@@ -19,31 +19,31 @@ public class ItemsApiDelegateImpl implements ItemsApiDelegate {
 
     @Override
     public ResponseEntity<ItemStatus> apiPostItems(Object body) {
-        Item item =
-            Item
-                .builder()
-                .timestamp((new Date()).toInstant().atOffset(ZoneOffset.UTC))
-                .item(body)
-                .id(UUID.randomUUID())
-                .build();
+        Item item = new Item();
+        item.timestamp((new Date()).toInstant().atOffset(ZoneOffset.UTC));
+        item.item(body);
+        item.id(UUID.randomUUID());
         try {
             itemsInmemoryDatabaseMap.add(item);
-            return ResponseEntity.ok(ItemStatus.builder().id(item.getId()).status(ItemStatus.StatusEnum.SUCCESS).url("TBD").build());
+            ItemStatus itemStatus = new ItemStatus();
+            itemStatus.id(item.getId());
+            itemStatus.status(ItemStatus.StatusEnum.SUCCESS);
+            itemStatus.url("TBD");
+            return ResponseEntity.ok(itemStatus);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ItemStatus.builder().status(ItemStatus.StatusEnum.FAILURE).build());
+            ItemStatus itemStatus = new ItemStatus();
+            itemStatus.status(ItemStatus.StatusEnum.FAILURE);
+            return ResponseEntity.badRequest().body(itemStatus);
         }
     }
 
     @Override
     public ResponseEntity<InlineResponse200> apiGetItems(Integer limit, UUID cursor) {
 
-        InlineResponse200 inlineResponse200 =
-            InlineResponse200
-                .builder()
-                .offset(cursor)
-                .limit(limit)
-                .items(itemsInmemoryDatabaseMap.getItemsFromCursor(limit, cursor))
-                .build();
+        InlineResponse200 inlineResponse200 = new InlineResponse200();
+        inlineResponse200.offset(cursor);
+        inlineResponse200.limit(limit);
+        inlineResponse200.items(itemsInmemoryDatabaseMap.getItemsFromCursor(limit, cursor));
         return ResponseEntity.ok(inlineResponse200);
     }
 }
