@@ -15,6 +15,6 @@ public class StatusApiDelegateImplTest {
     public void tddTest() {
         StatusApiDelegateImpl x = new StatusApiDelegateImpl();
         ResponseEntity responseEntity = x.apiGetStatus();
-        assertTrue(responseEntity.getBody() != null && x.apiGetStatus().getBody().getStatus() < 10);
+        assertTrue(responseEntity.getBody() != null && x.apiGetStatus().getBody().getStatus() <= 10);
     }
 }
